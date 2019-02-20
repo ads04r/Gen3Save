@@ -5,7 +5,7 @@ A Python library for parsing a Gameboy Advance Pokemon Gen III save file. Don't 
 
 Call the script from the command line with
 
-    Gen3Save [filename]
+    python pokemondata/Gen3Save.py savefile.sav
 
 Use from within python with
 
