@@ -182,7 +182,7 @@ if __name__ == "__main__":
 	if not os.path.exists(sys.argv[1]):
 		sys.exit('ERROR: File %s not found' % sys.argv[1])
 
-	sf = SaveFile()
+	sf = Gen3Save()
 	sf.load(sys.argv[1])
 
 	print json.dumps(sf.boxes)
