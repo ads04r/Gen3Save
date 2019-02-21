@@ -37,10 +37,6 @@ class Gen3Save:
 
 	def __init__(self, filename):
 
-		self.__load(filename)
-
-	def __load(self, filename):
-
 		f = open(filename, "rb")
 		data = bytearray(f.read())
 
@@ -80,7 +76,10 @@ class Gen3Save:
 			sections[id] = section[0:3968]
 
 		self.name = self.__readstring(sections[0][0:7]).strip()
+		self.team = []
 		self.boxes = []
+
+		self.teamcount = int(struct.unpack('<I', sections[1][564:568])[0])
 
 		dex = bytearray()
 		for i in range(5, 14):
@@ -101,6 +100,8 @@ if __name__ == "__main__":
 		sys.exit('ERROR: File %s not found' % sys.argv[1])
 
 	sf = Gen3Save(sys.argv[1])
-	for pkm in sf.boxes:
-		print pkm.species['name'] + '/' + pkm.name
+	print sf.name
+	print sf.teamcount
+	#for pkm in sf.boxes:
+		#print pkm.species['name'] + '/' + pkm.name
 
