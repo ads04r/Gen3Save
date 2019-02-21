@@ -79,7 +79,25 @@ class Gen3Save:
 		self.team = []
 		self.boxes = []
 
-		self.teamcount = int(struct.unpack('<I', sections[1][564:568])[0])
+		gamecode = int(struct.unpack('<I', sections[0][172:176])[0])
+		self.game = 'emerald'
+		if gamecode == 0:
+			self.game = 'rubysapphire'
+		if gamecode == 1:
+			self.game = 'fireredleafgreen'
+		if gamecode == 1:
+			self.teamcount = int(struct.unpack('<I', sections[1][52:56])[0])
+			teamoffset = 56
+		else:
+			self.teamcount = int(struct.unpack('<I', sections[1][564:568])[0])
+			teamoffset = 568
+
+		gender = int(struct.unpack('<B', chr(sections[0][8]))[0])
+		self.gender = ''
+		if gender == 0:
+			self.gender = 'boy'
+		if gender == 1:
+			self.gender = 'girl'
 
 		dex = bytearray()
 		for i in range(5, 14):
@@ -90,6 +108,12 @@ class Gen3Save:
 			if not(hasattr(pkm, 'species')):
 				continue
 			self.boxes.append(pkm)
+		for i in range(0, self.teamcount):
+			ofs = teamoffset + (i * 100)
+			pkm = Gen3Pokemon(sections[1][ofs:(ofs + 80)])
+			if not(hasattr(pkm, 'species')):
+				continue
+			self.team.append(pkm)
 
 if __name__ == "__main__":
 
@@ -100,8 +124,8 @@ if __name__ == "__main__":
 		sys.exit('ERROR: File %s not found' % sys.argv[1])
 
 	sf = Gen3Save(sys.argv[1])
-	print sf.name
+	print sf.name + ' (' + sf.gender + ')'
 	print sf.teamcount
-	#for pkm in sf.boxes:
-		#print pkm.species['name'] + '/' + pkm.name
+	for pkm in sf.team:
+		print pkm.species['name'] + '/' + pkm.name
 
