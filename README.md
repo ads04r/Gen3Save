@@ -11,8 +11,7 @@ Use from within python with
 
     from pokemondata import Gen3Save
     
-    data = Gen3Save()
-    Gen3Save.load('savefile.sav')
+    data = Gen3Save('savefile.sav')
 
 
 
