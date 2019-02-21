@@ -127,5 +127,5 @@ if __name__ == "__main__":
 	print sf.name + ' (' + sf.gender + ')'
 	print sf.teamcount
 	for pkm in sf.team:
-		print pkm.species['name'] + '/' + pkm.name
+		print pkm.species['name'] + '/' + pkm.name + ' Level ' + str(pkm.level)
 
