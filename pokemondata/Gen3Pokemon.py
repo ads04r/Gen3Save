@@ -85,25 +85,41 @@ class Gen3Pokemon:
 			if item['id'] == 0:
 				continue
 			item['name'] = self.__movename(item['id'])
-			item['pp'] = int(struct.unpack('B', sections['A'][(i + 8)])[0])
+			item['pp'] = int(struct.unpack('<B', sections['A'][(i + 8)])[0])
 			moves.append(item)
 		self.moves = moves
 		self.nature = self.__naturename(self.personality % 25)
+		self.ivs = self.__getivs(int(struct.unpack('<I', sections['M'][4:8])[0]))
+		self.evs = self.__getevs(sections['E'])
+
+	def __getivs(self, value):
+
+		iv = {}
+		bitstring = str(str(bin(value)[2:])[::-1] + '00000000000000000000000000000000')[0:32]
+		iv['hp'] = int(bitstring[0:5], 2)
+		iv['attack'] = int(bitstring[5:10], 2)
+		iv['defence'] = int(bitstring[10:15], 2)
+		iv['speed'] = int(bitstring[15:20], 2)
+		iv['spatk'] = int(bitstring[20:25], 2)
+		iv['spdef'] = int(bitstring[25:30], 2)
+		return iv
+
+	def __getevs(self, section):
 
 		ev = {}
-		ev['hp'] = int(struct.unpack('B', sections['E'][0])[0])
-		ev['attack'] = int(struct.unpack('B', sections['E'][1])[0])
-		ev['defence'] = int(struct.unpack('B', sections['E'][2])[0])
-		ev['speed'] = int(struct.unpack('B', sections['E'][3])[0])
-		ev['spatk'] = int(struct.unpack('B', sections['E'][4])[0])
-		ev['spdef'] = int(struct.unpack('B', sections['E'][5])[0])
-		ev['cool'] = int(struct.unpack('B', sections['E'][6])[0])
-		ev['beauty'] = int(struct.unpack('B', sections['E'][7])[0])
-		ev['cute'] = int(struct.unpack('B', sections['E'][8])[0])
-		ev['smart'] = int(struct.unpack('B', sections['E'][9])[0])
-		ev['tough'] = int(struct.unpack('B', sections['E'][10])[0])
-		ev['feel'] = int(struct.unpack('B', sections['E'][11])[0])
-		self.ev = ev
+		ev['hp'] = int(struct.unpack('<B', section[0])[0])
+		ev['attack'] = int(struct.unpack('<B', section[1])[0])
+		ev['defence'] = int(struct.unpack('<B', section[2])[0])
+		ev['speed'] = int(struct.unpack('<B', section[3])[0])
+		ev['spatk'] = int(struct.unpack('<B', section[4])[0])
+		ev['spdef'] = int(struct.unpack('<B', section[5])[0])
+		ev['cool'] = int(struct.unpack('<B', section[6])[0])
+		ev['beauty'] = int(struct.unpack('<B', section[7])[0])
+		ev['cute'] = int(struct.unpack('<B', section[8])[0])
+		ev['smart'] = int(struct.unpack('<B', section[9])[0])
+		ev['tough'] = int(struct.unpack('<B', section[10])[0])
+		ev['feel'] = int(struct.unpack('<B', section[11])[0])
+		return ev
 
 	def __decryptsubsection(self, data, key):
 
