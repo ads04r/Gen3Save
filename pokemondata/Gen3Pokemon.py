@@ -77,6 +77,8 @@ class Gen3Pokemon:
 		self.exp = int(struct.unpack('<I', sections['G'][4:8])[0])
 		self.expgroup = self.__expgroup(self.species['id'])
 		self.level = self.__level(self.expgroup, self.exp)
+		if self.name == '':
+			self.name = self.species['name'].upper()
 
 		moves = []
 		for i in range(0, 4):
