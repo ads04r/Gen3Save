@@ -42,10 +42,9 @@ The pokemon class has the following properties
 * `exp` returns the pokemon's EXP level, as an integer.
 * `ivs` this is basically unfinished - it returns (some of) the pokemon's individual data. I'll finish it one day.
 
-There are also some more low-level properties.
+There is also a lower-level property...
 
-* `data` returns the pokemon data exactly as it is stored in the game. When output as a .PKM file, this can be read using ASave.
-* `personality` returns the personality data of the pokemon, as the game stores it. See Bulbapedia form more information on this.
+* `data` returns the pokemon data, unencrypted, which can be saved in a PKM file, compatible with A-Save.
 
 Credits / Thanks
 ----------------

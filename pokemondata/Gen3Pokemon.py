@@ -71,7 +71,10 @@ class Gen3Pokemon:
 		for i in range(0, 4):
 			section = orderstring[i]
 			sectiondata = data[(i * 12):((i + 1) * 12)]
-			sections[section] = self.__decryptsubsection(sectiondata, key)
+			decr = self.__decryptsubsection(sectiondata, key)
+			sections[section] = decr
+		decrypted = [sections['G'], sections['A'], sections['E'], sections['M']]
+		self.data = self.data[0:32] + (''.join(decrypted))
 		self.species = {'id': int(struct.unpack('<H', sections['G'][0:2])[0])}
 		self.species['name'] = self.__speciesname(self.species['id'])
 		self.exp = int(struct.unpack('<I', sections['G'][4:8])[0])
