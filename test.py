@@ -1,7 +1,7 @@
 from pokemondata import Gen3Save, Gen3Pokemon
 import json
 
-mysave = Gen3Save("pokemonsapphire.sav")
+mysave = Gen3Save("pokemon-sapphire.sav")
 
 ret = []
 
